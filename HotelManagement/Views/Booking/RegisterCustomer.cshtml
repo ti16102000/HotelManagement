@@ -1,0 +1,51 @@
+﻿
+@{
+    ViewBag.Title = "RegisterCustomer";
+    Layout = "~/Views/Shared/_LayoutClient.cshtml";
+}
+
+<div id="content" style="max-width: 40%;">
+    <div id="booking">
+        <span style="margin-left: 30%;">YOUR INFORMATION</span>
+        <form action="@Url.Action("CreateBooking")" method="post" class="gridFormBook">
+            <div class="labelForm">
+                <label>Your Name:</label>
+                <label>Phone Number:</label>
+                <label>Email:</label>
+                <label>Address:</label>
+            </div>
+            <div class="inputForm">
+                <div>
+                    <input type="text" maxlength="40" name="NameCus" required>
+                </div>
+                <div>
+                    <input type="text" maxlength="12" pattern="[+]{0,1}[\d]{10,12}" title="Invalid Phone!" name="PhoneCus">
+                </div>
+                <div>
+                    <input type="text" maxlength="40" pattern="[a-z0-9._%+-]+@("@")[a-z0-9.-]+\.[a-z]{2,}$" title="Invalid Email" name="EmailCus"> 
+                </div>
+                <div>
+                    <input type="text" maxlength="40" name="AddressCus">
+                </div>
+                <div>
+                    <input type="submit" value="Submit" class="btnBooking">
+                </div>
+            </div>
+        </form>
+        <a href="@Url.Action("Index")" class="btnBack"> &#x2B05; Back to Home</a>
+    </div>
+</div>
+@section scripts{
+    <script>
+    $(function () {
+        var msg1 = '@TempData["success"]'
+        var msg2='@TempData["error"]'
+        if (msg1 != '') {
+            alertify.success(msg1);
+        }
+        if (msg2 != '') {
+            alertify.error(msg2);
+        }
+    });
+    </script>
+}

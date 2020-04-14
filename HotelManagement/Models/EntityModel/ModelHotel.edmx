@@ -1,0 +1,672 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="HotelAPIManagementModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Booking">
+          <Key>
+            <PropertyRef Name="IDBooking" />
+          </Key>
+          <Property Name="IDBooking" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IDCus" Type="int" Nullable="false" />
+          <Property Name="IDCateRoom" Type="int" Nullable="false" />
+          <Property Name="NumberRoom" Type="int" Nullable="false" />
+          <Property Name="DateIn" Type="date" Nullable="false" />
+          <Property Name="DateOut" Type="date" Nullable="false" />
+          <Property Name="DurationStay" Type="int" Nullable="false" />
+          <Property Name="DayCreateBooking" Type="datetime" Nullable="false" />
+          <Property Name="NewBooking" Type="bit" Nullable="false" />
+          <Property Name="TokenBooking" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CategoryRoom">
+          <Key>
+            <PropertyRef Name="IDCateRoom" />
+          </Key>
+          <Property Name="IDCateRoom" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NameCateRoom" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PriceCateRoom" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CategoryService">
+          <Key>
+            <PropertyRef Name="IDCateSer" />
+          </Key>
+          <Property Name="IDCateSer" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NameCateSer" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="IDCus" />
+          </Key>
+          <Property Name="IDCus" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NameCus" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PhoneCus" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="EmailCus" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="AddressCus" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="DayCreateCus" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="HistoryBooking">
+          <Key>
+            <PropertyRef Name="IDHisBook" />
+          </Key>
+          <Property Name="IDHisBook" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IDBook" Type="int" Nullable="false" />
+          <Property Name="NameHisBook" Type="nvarchar" MaxLength="300" Nullable="false" />
+          <Property Name="DayCreateHisBook" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OrderDetail">
+          <Key>
+            <PropertyRef Name="IDOrdD" />
+          </Key>
+          <Property Name="IDOrdD" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IDOrd" Type="int" Nullable="false" />
+          <Property Name="NameService" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="PriceOrdD" Type="int" Nullable="false" />
+          <Property Name="Amount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="DayCreateOrdD" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OrderService">
+          <Key>
+            <PropertyRef Name="IDOrd" />
+          </Key>
+          <Property Name="IDOrd" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IDBooking" Type="int" Nullable="false" />
+          <Property Name="Total" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Payment" Type="bit" />
+        </EntityType>
+        <EntityType Name="Room">
+          <Key>
+            <PropertyRef Name="IDRoom" />
+          </Key>
+          <Property Name="IDRoom" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NameRoom" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="IDCateRoom" Type="int" Nullable="false" />
+          <Property Name="Empty" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RoomBooking">
+          <Key>
+            <PropertyRef Name="IDRoomBook" />
+          </Key>
+          <Property Name="IDRoomBook" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IDBook" Type="int" Nullable="false" />
+          <Property Name="IDRoom" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Service">
+          <Key>
+            <PropertyRef Name="IDService" />
+          </Key>
+          <Property Name="IDService" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NameService" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PriceService" Type="int" Nullable="false" />
+          <Property Name="IDCateSer" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Booking_CategoryRoom">
+          <End Role="CategoryRoom" Type="Self.CategoryRoom" Multiplicity="1" />
+          <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CategoryRoom">
+              <PropertyRef Name="IDCateRoom" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="IDCateRoom" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Booking_Customer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="IDCus" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="IDCus" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HistoryBooking_Booking">
+          <End Role="Booking" Type="Self.Booking" Multiplicity="1" />
+          <End Role="HistoryBooking" Type="Self.HistoryBooking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Booking">
+              <PropertyRef Name="IDBooking" />
+            </Principal>
+            <Dependent Role="HistoryBooking">
+              <PropertyRef Name="IDBook" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderDetail_OrderService">
+          <End Role="OrderService" Type="Self.OrderService" Multiplicity="1" />
+          <End Role="OrderDetail" Type="Self.OrderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderService">
+              <PropertyRef Name="IDOrd" />
+            </Principal>
+            <Dependent Role="OrderDetail">
+              <PropertyRef Name="IDOrd" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderService_Booking">
+          <End Role="Booking" Type="Self.Booking" Multiplicity="1" />
+          <End Role="OrderService" Type="Self.OrderService" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Booking">
+              <PropertyRef Name="IDBooking" />
+            </Principal>
+            <Dependent Role="OrderService">
+              <PropertyRef Name="IDBooking" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Room_CategoryRoom">
+          <End Role="CategoryRoom" Type="Self.CategoryRoom" Multiplicity="1" />
+          <End Role="Room" Type="Self.Room" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CategoryRoom">
+              <PropertyRef Name="IDCateRoom" />
+            </Principal>
+            <Dependent Role="Room">
+              <PropertyRef Name="IDCateRoom" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RoomBooking_Booking">
+          <End Role="Booking" Type="Self.Booking" Multiplicity="1" />
+          <End Role="RoomBooking" Type="Self.RoomBooking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Booking">
+              <PropertyRef Name="IDBooking" />
+            </Principal>
+            <Dependent Role="RoomBooking">
+              <PropertyRef Name="IDBook" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RoomBooking_Room">
+          <End Role="Room" Type="Self.Room" Multiplicity="1" />
+          <End Role="RoomBooking" Type="Self.RoomBooking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Room">
+              <PropertyRef Name="IDRoom" />
+            </Principal>
+            <Dependent Role="RoomBooking">
+              <PropertyRef Name="IDRoom" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Service_CategoryService">
+          <End Role="CategoryService" Type="Self.CategoryService" Multiplicity="1" />
+          <End Role="Service" Type="Self.Service" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CategoryService">
+              <PropertyRef Name="IDCateSer" />
+            </Principal>
+            <Dependent Role="Service">
+              <PropertyRef Name="IDCateSer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HotelAPIManagementModelStoreContainer">
+          <EntitySet Name="Booking" EntityType="Self.Booking" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CategoryRoom" EntityType="Self.CategoryRoom" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CategoryService" EntityType="Self.CategoryService" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HistoryBooking" EntityType="Self.HistoryBooking" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrderDetail" EntityType="Self.OrderDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrderService" EntityType="Self.OrderService" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Room" EntityType="Self.Room" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RoomBooking" EntityType="Self.RoomBooking" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Service" EntityType="Self.Service" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Booking_CategoryRoom" Association="Self.FK_Booking_CategoryRoom">
+            <End Role="CategoryRoom" EntitySet="CategoryRoom" />
+            <End Role="Booking" EntitySet="Booking" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Booking_Customer" Association="Self.FK_Booking_Customer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="Booking" EntitySet="Booking" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HistoryBooking_Booking" Association="Self.FK_HistoryBooking_Booking">
+            <End Role="Booking" EntitySet="Booking" />
+            <End Role="HistoryBooking" EntitySet="HistoryBooking" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderDetail_OrderService" Association="Self.FK_OrderDetail_OrderService">
+            <End Role="OrderService" EntitySet="OrderService" />
+            <End Role="OrderDetail" EntitySet="OrderDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderService_Booking" Association="Self.FK_OrderService_Booking">
+            <End Role="Booking" EntitySet="Booking" />
+            <End Role="OrderService" EntitySet="OrderService" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Room_CategoryRoom" Association="Self.FK_Room_CategoryRoom">
+            <End Role="CategoryRoom" EntitySet="CategoryRoom" />
+            <End Role="Room" EntitySet="Room" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RoomBooking_Booking" Association="Self.FK_RoomBooking_Booking">
+            <End Role="Booking" EntitySet="Booking" />
+            <End Role="RoomBooking" EntitySet="RoomBooking" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RoomBooking_Room" Association="Self.FK_RoomBooking_Room">
+            <End Role="Room" EntitySet="Room" />
+            <End Role="RoomBooking" EntitySet="RoomBooking" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Service_CategoryService" Association="Self.FK_Service_CategoryService">
+            <End Role="CategoryService" EntitySet="CategoryService" />
+            <End Role="Service" EntitySet="Service" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="HotelAPIManagementModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="HotelAPIManagementEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Bookings" EntityType="HotelAPIManagementModel.Booking" />
+          <EntitySet Name="CategoryRooms" EntityType="HotelAPIManagementModel.CategoryRoom" />
+          <EntitySet Name="CategoryServices" EntityType="HotelAPIManagementModel.CategoryService" />
+          <EntitySet Name="Customers" EntityType="HotelAPIManagementModel.Customer" />
+          <EntitySet Name="HistoryBookings" EntityType="HotelAPIManagementModel.HistoryBooking" />
+          <EntitySet Name="Rooms" EntityType="HotelAPIManagementModel.Room" />
+          <EntitySet Name="RoomBookings" EntityType="HotelAPIManagementModel.RoomBooking" />
+          <EntitySet Name="Services" EntityType="HotelAPIManagementModel.Service" />
+          <AssociationSet Name="FK_Booking_CategoryRoom" Association="HotelAPIManagementModel.FK_Booking_CategoryRoom">
+            <End Role="CategoryRoom" EntitySet="CategoryRooms" />
+            <End Role="Booking" EntitySet="Bookings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Booking_Customer" Association="HotelAPIManagementModel.FK_Booking_Customer">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="Booking" EntitySet="Bookings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HistoryBooking_Booking" Association="HotelAPIManagementModel.FK_HistoryBooking_Booking">
+            <End Role="Booking" EntitySet="Bookings" />
+            <End Role="HistoryBooking" EntitySet="HistoryBookings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RoomBooking_Booking" Association="HotelAPIManagementModel.FK_RoomBooking_Booking">
+            <End Role="Booking" EntitySet="Bookings" />
+            <End Role="RoomBooking" EntitySet="RoomBookings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Room_CategoryRoom" Association="HotelAPIManagementModel.FK_Room_CategoryRoom">
+            <End Role="CategoryRoom" EntitySet="CategoryRooms" />
+            <End Role="Room" EntitySet="Rooms" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Service_CategoryService" Association="HotelAPIManagementModel.FK_Service_CategoryService">
+            <End Role="CategoryService" EntitySet="CategoryServices" />
+            <End Role="Service" EntitySet="Services" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RoomBooking_Room" Association="HotelAPIManagementModel.FK_RoomBooking_Room">
+            <End Role="Room" EntitySet="Rooms" />
+            <End Role="RoomBooking" EntitySet="RoomBookings" />
+          </AssociationSet>
+          <EntitySet Name="OrderDetails" EntityType="HotelAPIManagementModel.OrderDetail" />
+          <EntitySet Name="OrderServices" EntityType="HotelAPIManagementModel.OrderService" />
+          <AssociationSet Name="FK_OrderService_Booking" Association="HotelAPIManagementModel.FK_OrderService_Booking">
+            <End Role="Booking" EntitySet="Bookings" />
+            <End Role="OrderService" EntitySet="OrderServices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderDetail_OrderService" Association="HotelAPIManagementModel.FK_OrderDetail_OrderService">
+            <End Role="OrderService" EntitySet="OrderServices" />
+            <End Role="OrderDetail" EntitySet="OrderDetails" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Booking">
+          <Key>
+            <PropertyRef Name="IDBooking" />
+          </Key>
+          <Property Name="IDBooking" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IDCus" Type="Int32" Nullable="false" />
+          <Property Name="IDCateRoom" Type="Int32" Nullable="false" />
+          <Property Name="NumberRoom" Type="Int32" Nullable="false" />
+          <Property Name="DateIn" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DateOut" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DurationStay" Type="Int32" Nullable="false" />
+          <Property Name="DayCreateBooking" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="NewBooking" Type="Boolean" Nullable="false" />
+          <Property Name="TokenBooking" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CategoryRoom" Relationship="HotelAPIManagementModel.FK_Booking_CategoryRoom" FromRole="Booking" ToRole="CategoryRoom" />
+          <NavigationProperty Name="Customer" Relationship="HotelAPIManagementModel.FK_Booking_Customer" FromRole="Booking" ToRole="Customer" />
+          <NavigationProperty Name="HistoryBookings" Relationship="HotelAPIManagementModel.FK_HistoryBooking_Booking" FromRole="Booking" ToRole="HistoryBooking" />
+          <NavigationProperty Name="RoomBookings" Relationship="HotelAPIManagementModel.FK_RoomBooking_Booking" FromRole="Booking" ToRole="RoomBooking" />
+          <NavigationProperty Name="OrderServices" Relationship="HotelAPIManagementModel.FK_OrderService_Booking" FromRole="Booking" ToRole="OrderService" />
+        </EntityType>
+        <EntityType Name="CategoryRoom">
+          <Key>
+            <PropertyRef Name="IDCateRoom" />
+          </Key>
+          <Property Name="IDCateRoom" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NameCateRoom" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PriceCateRoom" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Bookings" Relationship="HotelAPIManagementModel.FK_Booking_CategoryRoom" FromRole="CategoryRoom" ToRole="Booking" />
+          <NavigationProperty Name="Rooms" Relationship="HotelAPIManagementModel.FK_Room_CategoryRoom" FromRole="CategoryRoom" ToRole="Room" />
+        </EntityType>
+        <EntityType Name="CategoryService">
+          <Key>
+            <PropertyRef Name="IDCateSer" />
+          </Key>
+          <Property Name="IDCateSer" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NameCateSer" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Services" Relationship="HotelAPIManagementModel.FK_Service_CategoryService" FromRole="CategoryService" ToRole="Service" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="IDCus" />
+          </Key>
+          <Property Name="IDCus" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NameCus" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneCus" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="EmailCus" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AddressCus" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DayCreateCus" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Bookings" Relationship="HotelAPIManagementModel.FK_Booking_Customer" FromRole="Customer" ToRole="Booking" />
+        </EntityType>
+        <EntityType Name="HistoryBooking">
+          <Key>
+            <PropertyRef Name="IDHisBook" />
+          </Key>
+          <Property Name="IDHisBook" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IDBook" Type="Int32" Nullable="false" />
+          <Property Name="NameHisBook" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="DayCreateHisBook" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Booking" Relationship="HotelAPIManagementModel.FK_HistoryBooking_Booking" FromRole="HistoryBooking" ToRole="Booking" />
+        </EntityType>
+        <EntityType Name="Room">
+          <Key>
+            <PropertyRef Name="IDRoom" />
+          </Key>
+          <Property Name="IDRoom" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NameRoom" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IDCateRoom" Type="Int32" Nullable="false" />
+          <Property Name="Empty" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="CategoryRoom" Relationship="HotelAPIManagementModel.FK_Room_CategoryRoom" FromRole="Room" ToRole="CategoryRoom" />
+          <NavigationProperty Name="RoomBookings" Relationship="HotelAPIManagementModel.FK_RoomBooking_Room" FromRole="Room" ToRole="RoomBooking" />
+        </EntityType>
+        <EntityType Name="RoomBooking">
+          <Key>
+            <PropertyRef Name="IDRoomBook" />
+          </Key>
+          <Property Name="IDRoomBook" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IDBook" Type="Int32" Nullable="false" />
+          <Property Name="IDRoom" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Booking" Relationship="HotelAPIManagementModel.FK_RoomBooking_Booking" FromRole="RoomBooking" ToRole="Booking" />
+          <NavigationProperty Name="Room" Relationship="HotelAPIManagementModel.FK_RoomBooking_Room" FromRole="RoomBooking" ToRole="Room" />
+        </EntityType>
+        <EntityType Name="Service">
+          <Key>
+            <PropertyRef Name="IDService" />
+          </Key>
+          <Property Name="IDService" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NameService" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PriceService" Type="Int32" Nullable="false" />
+          <Property Name="IDCateSer" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="CategoryService" Relationship="HotelAPIManagementModel.FK_Service_CategoryService" FromRole="Service" ToRole="CategoryService" />
+        </EntityType>
+        <Association Name="FK_Booking_CategoryRoom">
+          <End Type="HotelAPIManagementModel.CategoryRoom" Role="CategoryRoom" Multiplicity="1" />
+          <End Type="HotelAPIManagementModel.Booking" Role="Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CategoryRoom">
+              <PropertyRef Name="IDCateRoom" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="IDCateRoom" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Booking_Customer">
+          <End Type="HotelAPIManagementModel.Customer" Role="Customer" Multiplicity="1" />
+          <End Type="HotelAPIManagementModel.Booking" Role="Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="IDCus" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="IDCus" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HistoryBooking_Booking">
+          <End Type="HotelAPIManagementModel.Booking" Role="Booking" Multiplicity="1" />
+          <End Type="HotelAPIManagementModel.HistoryBooking" Role="HistoryBooking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Booking">
+              <PropertyRef Name="IDBooking" />
+            </Principal>
+            <Dependent Role="HistoryBooking">
+              <PropertyRef Name="IDBook" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RoomBooking_Booking">
+          <End Type="HotelAPIManagementModel.Booking" Role="Booking" Multiplicity="1" />
+          <End Type="HotelAPIManagementModel.RoomBooking" Role="RoomBooking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Booking">
+              <PropertyRef Name="IDBooking" />
+            </Principal>
+            <Dependent Role="RoomBooking">
+              <PropertyRef Name="IDBook" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Room_CategoryRoom">
+          <End Type="HotelAPIManagementModel.CategoryRoom" Role="CategoryRoom" Multiplicity="1" />
+          <End Type="HotelAPIManagementModel.Room" Role="Room" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CategoryRoom">
+              <PropertyRef Name="IDCateRoom" />
+            </Principal>
+            <Dependent Role="Room">
+              <PropertyRef Name="IDCateRoom" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Service_CategoryService">
+          <End Type="HotelAPIManagementModel.CategoryService" Role="CategoryService" Multiplicity="1" />
+          <End Type="HotelAPIManagementModel.Service" Role="Service" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CategoryService">
+              <PropertyRef Name="IDCateSer" />
+            </Principal>
+            <Dependent Role="Service">
+              <PropertyRef Name="IDCateSer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RoomBooking_Room">
+          <End Type="HotelAPIManagementModel.Room" Role="Room" Multiplicity="1" />
+          <End Type="HotelAPIManagementModel.RoomBooking" Role="RoomBooking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Room">
+              <PropertyRef Name="IDRoom" />
+            </Principal>
+            <Dependent Role="RoomBooking">
+              <PropertyRef Name="IDRoom" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="OrderDetail">
+          <Key>
+            <PropertyRef Name="IDOrdD" />
+          </Key>
+          <Property Name="IDOrdD" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IDOrd" Type="Int32" Nullable="false" />
+          <Property Name="NameService" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="PriceOrdD" Type="Int32" Nullable="false" />
+          <Property Name="Amount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="DayCreateOrdD" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="OrderService" Relationship="HotelAPIManagementModel.FK_OrderDetail_OrderService" FromRole="OrderDetail" ToRole="OrderService" />
+        </EntityType>
+        <EntityType Name="OrderService">
+          <Key>
+            <PropertyRef Name="IDOrd" />
+          </Key>
+          <Property Name="IDOrd" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IDBooking" Type="Int32" Nullable="false" />
+          <Property Name="Total" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="Payment" Type="Boolean" />
+          <NavigationProperty Name="Booking" Relationship="HotelAPIManagementModel.FK_OrderService_Booking" FromRole="OrderService" ToRole="Booking" />
+          <NavigationProperty Name="OrderDetails" Relationship="HotelAPIManagementModel.FK_OrderDetail_OrderService" FromRole="OrderService" ToRole="OrderDetail" />
+        </EntityType>
+        <Association Name="FK_OrderService_Booking">
+          <End Type="HotelAPIManagementModel.Booking" Role="Booking" Multiplicity="1" />
+          <End Type="HotelAPIManagementModel.OrderService" Role="OrderService" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Booking">
+              <PropertyRef Name="IDBooking" />
+            </Principal>
+            <Dependent Role="OrderService">
+              <PropertyRef Name="IDBooking" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderDetail_OrderService">
+          <End Type="HotelAPIManagementModel.OrderService" Role="OrderService" Multiplicity="1" />
+          <End Type="HotelAPIManagementModel.OrderDetail" Role="OrderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderService">
+              <PropertyRef Name="IDOrd" />
+            </Principal>
+            <Dependent Role="OrderDetail">
+              <PropertyRef Name="IDOrd" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="HotelAPIManagementModelStoreContainer" CdmEntityContainer="HotelAPIManagementEntities">
+          <EntitySetMapping Name="Bookings">
+            <EntityTypeMapping TypeName="HotelAPIManagementModel.Booking">
+              <MappingFragment StoreEntitySet="Booking">
+                <ScalarProperty Name="TokenBooking" ColumnName="TokenBooking" />
+                <ScalarProperty Name="NewBooking" ColumnName="NewBooking" />
+                <ScalarProperty Name="DayCreateBooking" ColumnName="DayCreateBooking" />
+                <ScalarProperty Name="DurationStay" ColumnName="DurationStay" />
+                <ScalarProperty Name="DateOut" ColumnName="DateOut" />
+                <ScalarProperty Name="DateIn" ColumnName="DateIn" />
+                <ScalarProperty Name="NumberRoom" ColumnName="NumberRoom" />
+                <ScalarProperty Name="IDCateRoom" ColumnName="IDCateRoom" />
+                <ScalarProperty Name="IDCus" ColumnName="IDCus" />
+                <ScalarProperty Name="IDBooking" ColumnName="IDBooking" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CategoryRooms">
+            <EntityTypeMapping TypeName="HotelAPIManagementModel.CategoryRoom">
+              <MappingFragment StoreEntitySet="CategoryRoom">
+                <ScalarProperty Name="PriceCateRoom" ColumnName="PriceCateRoom" />
+                <ScalarProperty Name="NameCateRoom" ColumnName="NameCateRoom" />
+                <ScalarProperty Name="IDCateRoom" ColumnName="IDCateRoom" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CategoryServices">
+            <EntityTypeMapping TypeName="HotelAPIManagementModel.CategoryService">
+              <MappingFragment StoreEntitySet="CategoryService">
+                <ScalarProperty Name="NameCateSer" ColumnName="NameCateSer" />
+                <ScalarProperty Name="IDCateSer" ColumnName="IDCateSer" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Customers">
+            <EntityTypeMapping TypeName="HotelAPIManagementModel.Customer">
+              <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="DayCreateCus" ColumnName="DayCreateCus" />
+                <ScalarProperty Name="AddressCus" ColumnName="AddressCus" />
+                <ScalarProperty Name="EmailCus" ColumnName="EmailCus" />
+                <ScalarProperty Name="PhoneCus" ColumnName="PhoneCus" />
+                <ScalarProperty Name="NameCus" ColumnName="NameCus" />
+                <ScalarProperty Name="IDCus" ColumnName="IDCus" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HistoryBookings">
+            <EntityTypeMapping TypeName="HotelAPIManagementModel.HistoryBooking">
+              <MappingFragment StoreEntitySet="HistoryBooking">
+                <ScalarProperty Name="DayCreateHisBook" ColumnName="DayCreateHisBook" />
+                <ScalarProperty Name="NameHisBook" ColumnName="NameHisBook" />
+                <ScalarProperty Name="IDBook" ColumnName="IDBook" />
+                <ScalarProperty Name="IDHisBook" ColumnName="IDHisBook" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rooms">
+            <EntityTypeMapping TypeName="HotelAPIManagementModel.Room">
+              <MappingFragment StoreEntitySet="Room">
+                <ScalarProperty Name="Empty" ColumnName="Empty" />
+                <ScalarProperty Name="IDCateRoom" ColumnName="IDCateRoom" />
+                <ScalarProperty Name="NameRoom" ColumnName="NameRoom" />
+                <ScalarProperty Name="IDRoom" ColumnName="IDRoom" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RoomBookings">
+            <EntityTypeMapping TypeName="HotelAPIManagementModel.RoomBooking">
+              <MappingFragment StoreEntitySet="RoomBooking">
+                <ScalarProperty Name="IDRoom" ColumnName="IDRoom" />
+                <ScalarProperty Name="IDBook" ColumnName="IDBook" />
+                <ScalarProperty Name="IDRoomBook" ColumnName="IDRoomBook" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Services">
+            <EntityTypeMapping TypeName="HotelAPIManagementModel.Service">
+              <MappingFragment StoreEntitySet="Service">
+                <ScalarProperty Name="IDCateSer" ColumnName="IDCateSer" />
+                <ScalarProperty Name="PriceService" ColumnName="PriceService" />
+                <ScalarProperty Name="NameService" ColumnName="NameService" />
+                <ScalarProperty Name="IDService" ColumnName="IDService" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderDetails">
+            <EntityTypeMapping TypeName="HotelAPIManagementModel.OrderDetail">
+              <MappingFragment StoreEntitySet="OrderDetail">
+                <ScalarProperty Name="DayCreateOrdD" ColumnName="DayCreateOrdD" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="PriceOrdD" ColumnName="PriceOrdD" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="NameService" ColumnName="NameService" />
+                <ScalarProperty Name="IDOrd" ColumnName="IDOrd" />
+                <ScalarProperty Name="IDOrdD" ColumnName="IDOrdD" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderServices">
+            <EntityTypeMapping TypeName="HotelAPIManagementModel.OrderService">
+              <MappingFragment StoreEntitySet="OrderService">
+                <ScalarProperty Name="Payment" ColumnName="Payment" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="IDBooking" ColumnName="IDBooking" />
+                <ScalarProperty Name="IDOrd" ColumnName="IDOrd" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

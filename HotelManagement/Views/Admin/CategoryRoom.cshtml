@@ -1,0 +1,41 @@
+﻿
+@{
+    ViewBag.Title = "CategoryRoom";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<a href="@Url.Action("ListCateRoom")" class="btn btn-sm btn-info" style="background-color:#4e73df;font-size:20px;float:right;">
+    <i class="fa fa-arrow-right"></i>
+</a>
+
+<section class="panel" style="margin-top:55px;">
+    <header class="panel-heading">
+        Create Category Room
+    </header>
+    <form action="@Url.Action("CreateCateRoom")" method="POST" enctype="multipart/form-data">
+        <div class="panel-body">
+            <div class="position-center">
+                <div class="form-group">
+                    <label for="">Category Name:</label>
+                    <input type="text" class="form-control" name="NameCateRoom" maxlength="40" required>
+                </div>
+                <div class="form-group">
+                    <label for="">Price:</label>
+                    <input type="text" class="form-control" name="PriceCateRoom" maxlength="6" pattern="[\d]+" title="Price is number not letter" required>
+                </div>
+                <button type="submit" name="submit" class="btn btn-info">Submit</button>
+            </div>
+        </div>
+    </form>
+</section>
+@section scripts{
+    <script>
+    $(function () {
+        var msg2='@TempData["error"]'
+        if (msg2 != '') {
+            alertify.error(msg2);
+        }
+    });
+    </script>
+}
+

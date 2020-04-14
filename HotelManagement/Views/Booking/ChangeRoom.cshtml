@@ -1,0 +1,30 @@
+﻿@model HotelManagement.Models.ViewModel.RoomBookingView
+@{
+    ViewBag.Title = "ChangeRoom";
+    Layout = "~/Views/Shared/_LayoutClient.cshtml";
+}
+
+<div id="content" style="max-width: 40%;">
+    <a href="@Url.Action("InformationBooking",new { token=TempData["token"]})" class="btnBack"> &#x2B05; Back to your booking</a><br>
+    <form action="@Url.Action("UpdateRB")" method="post">
+        <input type="hidden" name="IDBook" value="@TempData["idBook"]" />
+        <input type="hidden" name="IDRoomBook" value="@Model.IDRoomBook" />
+        <input type="hidden" name="token" value="@TempData["token"]" />
+        <label for="" style="font-size: 20px;color: floralwhite;">
+            Change room: <b style="color:gold;"> @Model.NameRoom</b>
+        </label><br>
+        <label for="" style="font-size: 20px;color: floralwhite;">Reason:</label>
+        <input type="text" style="width:60%" name="reason" required>
+        <label for="" style="font-size: 20px;color: floralwhite;">Choose another room:</label>
+        <select name="IDRoom" id="" style="width: 35%;">
+            @foreach (var item in ((IEnumerable<HotelManagement.Models.ViewModel.RoomView>)TempData["room"]))
+            {
+                <option value="@item.IDRoom">@item.NameRoom</option>
+            }
+        </select>
+        <div>
+            <input type="submit" class="btn btn-success"value="Submit">
+        </div>
+    </form>
+</div>
+

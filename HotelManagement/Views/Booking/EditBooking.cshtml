@@ -1,0 +1,52 @@
+﻿@model HotelManagement.Models.ViewModel.BookingView
+@{
+    ViewBag.Title = "EditBooking";
+    Layout = "~/Views/Shared/_LayoutClient.cshtml";
+}
+
+<div id="content" style="max-width: 40%;">
+    <div id="booking">
+        <span>EDIT BOOKING</span>
+        <form action="@Url.Action("UpdateBooking")" method="post" class="gridFormBook">
+            <div class="labelForm">
+                <label>Category Room:</label>
+                <label>Number of rooms:</label>
+                <label>Date In:</label>
+                <label for="">Date Out:</label>
+            </div>
+            <div class="inputForm">
+                <div>
+                    <select name="IDCateRoom" id="selectCate" style="width: 100%;">
+                        @foreach (var item in ((IEnumerable<HotelManagement.Models.ViewModel.CategoryRoomView>)TempData["cate"]))
+                        {
+                            <option value="@item.IDCateRoom" data-room="@item.CountRoom">@item.NameCateRoom</option>
+                        }
+                    </select>
+                    <label style="font-size: 18px;color: red;" id="numberRoom"></label>
+                </div>
+                <div>
+                    <input type="number" min="1" max="0" id="inputNumber" name="NumberRoom" value="@Model.NumberRoom" required>
+                </div>
+                <div>
+                    <input type="date" id="dateIn" name="DateIn" value="@(TempData["in"]??null)" required>
+                    <label class="error" id="errorDateIn">
+                        Date In invalid!
+                    </label>
+                </div>
+                <div>
+                    <input type="date" id="dateOut" name="DateOut" value="@(TempData["out"]??null)" required>
+                    <input type="hidden" id="countDate" name="DurationStay" value="@Model.DurationStay">
+                    <input type="hidden" name="IDBooking" value="@Model.IDBooking" />
+                    <input type="hidden" name="TokenBooking" value="@Model.TokenBooking" />
+                    <label class="error" id="errorDateOut">
+                        Date Out invalid!
+                    </label>
+                </div>
+                <div>
+                    <input type="submit" value="Submit" class="btnBooking">
+                </div>
+            </div>
+        </form>
+    </div>
+    <a href="@Url.Action("InformationBooking",new { token=Model.TokenBooking})" class="btnBack"> &#x2B05; Back to Your Booking</a>
+</div>

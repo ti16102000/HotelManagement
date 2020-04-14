@@ -1,0 +1,82 @@
+﻿@model IEnumerable<HotelManagement.Models.ViewModel.CategoryRoomView>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutClient.cshtml";
+}
+
+<div id="content" style="max-width: 40%;">
+    <div id="fieldSearch">
+        <span>Information about the room you have booked</span>
+        <form action="@Url.Action("InformationBooking")" method="post">
+            <label for="">ID Booking: </label>
+            <input type="text" maxlength="6" required name="token">
+            <input type="submit" value="Search">
+        </form>
+    </div>
+    <div id="booking">
+        <span>BOOKING</span>
+        <form action="@Url.Action("SaveBooking")" method="post" class="gridFormBook">
+            <div class="labelForm">
+                <label>Category Room:</label>
+                <label>Number of rooms:</label>
+                <label>Date In:</label>
+                <label for="">Date Out:</label>
+            </div>
+            <div class="inputForm">
+                <div>
+                    <select name="IDCateRoom" id="selectCate" style="width: 100%;">
+                        @foreach (var item in Model)
+                        {
+                            <option value="@item.IDCateRoom" data-room="@item.CountRoom">@item.NameCateRoom</option>
+                        }
+                    </select>
+                    <label style="font-size: 18px;color: red;" id="numberRoom"></label>
+                </div>
+                <div>
+                    <input type="number" min="1" max="0" id="inputNumber" name="NumberRoom" value="@(TempData["room"]??null)" required>
+                </div>
+                <div>
+                    <input type="date" id="dateIn" name="DateIn" value="@(TempData["in"]??null)" required>
+                    <label class="error" id="errorDateIn">
+                        Date In invalid!
+                    </label>
+                </div>
+                <div>
+                    <input type="date" id="dateOut" name="DateOut" value="@(TempData["out"]??null)" required>
+                    <input type="hidden" id="countDate" name="DurationStay" value="@(TempData["stay"]??"1")">
+                    <label class="error" id="errorDateOut">
+                        Date Out invalid!
+                    </label>
+                </div>
+                <div>
+                    <input type="submit" value="Submit" class="btnBooking">
+
+                </div>
+            </div>
+        </form>
+    </div>
+    @if (Session["emp"] != null)
+    {
+        <a href="@Url.Action("LogOut")">Đăng xuất</a>
+    }
+</div>
+@section scripts{
+    <script>
+        $(function () {
+        if ('@Session["book"]'=='')
+        {
+            $('#dateIn').val(new Date().toISOString().split('T')[0]);
+    $('#dateOut').val(new Date().toISOString().split('T')[0]);
+        }
+        var msg1 = '@TempData["success"]'
+        var msg2='@TempData["error"]'
+        if (msg1 != '') {
+            alertify.success(msg1);
+        }
+        if (msg2 != '') {
+            alertify.error(msg2);
+        }
+    });
+    </script>
+}
+

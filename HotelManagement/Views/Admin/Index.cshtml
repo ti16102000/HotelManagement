@@ -1,0 +1,47 @@
+﻿@model IEnumerable<HotelManagement.Models.ViewModel.BookingView>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="table-agile-info">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            Booking List
+        </div>
+
+        <div class="table-responsive">
+
+            <table class="table table-striped b-t b-light">
+                <thead>
+                    <tr>
+                        <th>Customer's Name</th>
+                        <th>Category Room</th>
+                        <th>Number of Room Booking</th>
+                        <th>Date In</th>
+                        <th>Date Out</th>
+                        <th>Day Create</th>
+                        <th>Detail</th>
+                    </tr>
+                </thead>
+                <tbody style="word-break: break-all;">
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.NameCus</td>
+                            <td>@item.NameCateRoom</td>
+                            <td>@item.NumberRoom</td>
+                            <td>@item.DateIn</td>
+                            <td>@item.DateOut</td>
+                            <td>@item.DayCreateBooking</td>
+                            <td>
+                                <a href="@Url.Action("ReadNewBooking",new { id=item.IDBooking,token=item.TokenBooking})">Detail</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+

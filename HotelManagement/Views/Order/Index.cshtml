@@ -1,0 +1,57 @@
+﻿@model HotelManagement.Models.ViewModel.BookingView
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutClient.cshtml";
+    HotelManagement.Models.ViewModel.CategoryServiceView csv = null;
+    if (TempData["cate"] != null)
+    {
+        csv = (HotelManagement.Models.ViewModel.CategoryServiceView)TempData["cate"];
+    }
+}
+
+@if (csv != null)
+{
+    <div id="content" style="max-width: 50%;">
+        <a href="@Url.Action("InformationBooking","Booking",new { token=Model.TokenBooking})" class="btnBack"> &#x2B05; Back to Your booking</a>
+        <input type="hidden" id="tokenOrd" value="@Model.TokenBooking" />
+        <div class="gridOrd">
+            <div id="menuService">
+                <div class="menuActive" data-idcate="@csv.IDCateSer">@csv.NameCateSer</div>
+                @foreach (var item in ((IEnumerable<HotelManagement.Models.ViewModel.CategoryServiceView>)TempData["cbb"]))
+                {
+                    <div data-idcate="@item.IDCateSer">@item.NameCateSer</div>
+                }
+            </div>
+            <div id="tableService">
+                <div class="panel-heading" style="text-align: center;color: springgreen;">
+                    Name Service List
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-striped b-t b-light">
+                        <thead style="color: tomato;">
+                            <tr>
+                                <th>Name Service</th>
+                                <th>Price</th>
+                                <th>Order</th>
+                            </tr>
+                        </thead>
+                        <tbody style="word-break: break-all;color: cornsilk;">
+                            @foreach (var item in ((IEnumerable<HotelManagement.Models.ViewModel.ServiceView>)TempData["ser"]))
+                            {
+                                <tr>
+                                    <td>@item.NameService</td>
+                                    <td>@item.PriceService</td>
+                                    <td><a href="@Url.Action("OrderService",new { token=Model.TokenBooking,idSer=item.IDService})">Order</a></td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <a href="@Url.Action("Index","Booking")" class="btnBack"> &#x2B05; Back to Home</a>
+    </div>
+}
+
+

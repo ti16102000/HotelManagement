@@ -1,0 +1,70 @@
+﻿@model IEnumerable<HotelManagement.Models.ViewModel.ServiceView>
+
+@{
+    ViewBag.Title = "ServiceList";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="table-agile-info">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            Service List &nbsp; <a class="agile-icon" href="@Url.Action("Service")"><i class="fa fa-plus-circle"></i></a>
+        </div>
+
+        <div class="table-responsive" style="height:500px;overflow:auto;">
+
+            <table class="table table-striped b-t b-light">
+                <thead>
+                    <tr>
+                        <th>Service Name</th>
+                        <th>Category Name</th>
+                        <th>Price</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody style="word-break: break-all;">
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.NameService</td>
+                            <td>@item.NameCateSer</td>
+                            <td>@item.PriceService</td>
+                            <td>
+                                <a href="@Url.Action("GetService", new { id=item.IDService})" class="active" ui-toggle-class="">
+                                    <i class="fa fa-edit text-success text-active"></i>&nbsp; &nbsp;
+                                </a>
+                                <a href="#" onclick="Delete(@item.IDService)" class="active" ui-toggle-class="">
+                                    <i class="fa fa-trash text-danger text"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+    $(function () {
+        var msg1 = '@TempData["success"]'
+        var msg2='@TempData["error"]'
+        if (msg1 != '') {
+            alertify.success(msg1);
+        }
+        if (msg2 != '') {
+            alertify.error(msg2);
+        }
+    });
+
+	function Delete(id) {
+	        alertify.confirm('Delete Service', 'Are you sure to delete this record?', function () {
+	            window.location.href='@Url.Action("DelService")/' + id;
+	        }, null);
+	    };
+
+
+    </script>
+}
+

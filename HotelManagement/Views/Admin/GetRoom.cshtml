@@ -1,0 +1,51 @@
+﻿@model HotelManagement.Models.ViewModel.RoomView
+
+@{
+    ViewBag.Title = "GetRoom";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<a href="@Url.Action("RoomList")" class="btn btn-sm btn-info" style="background-color:#4e73df;font-size:20px;float:right;">
+    <i class="fa fa-arrow-right"></i>
+</a>
+
+<section class="panel" style="margin-top:55px;">
+    <header class="panel-heading">
+        Edit Room
+    </header>
+    <form action="@Url.Action("UpdateRoom")" method="POST" enctype="multipart/form-data">
+        <div class="panel-body">
+            <div class="position-center">
+                <div class="form-group">
+                    <input type="hidden" name="IDRoom" value="@Model.IDRoom" />
+                    <label for="">Room Name:</label>
+                    <input type="text" class="form-control" name="NameRoom" maxlength="40" value="@Model.NameRoom" required>
+                </div>
+                <div class="form-group">
+                    <label for="">Category Room:</label>
+                    <select name="IDCateRoom">
+                        @foreach (var item in ((IEnumerable<HotelManagement.Models.ViewModel.CategoryRoomView>)TempData["cbb"]))
+                        {
+                            <option value="@item.IDCateRoom">@item.NameCateRoom</option>
+                        }
+
+                    </select>
+                </div>
+                <button type="submit" name="submit" class="btn btn-info">Submit</button>
+            </div>
+        </div>
+    </form>
+</section>
+@section scripts{
+    <script>
+    $(function () {
+        var msg2='@TempData["error"]'
+        if (msg2 != '') {
+            alertify.error(msg2);
+        }
+    });
+    </script>
+}
+
+
+

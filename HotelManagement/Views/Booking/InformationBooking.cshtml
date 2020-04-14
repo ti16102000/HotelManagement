@@ -1,0 +1,196 @@
+﻿@model HotelManagement.Models.ViewModel.BookingView
+@{
+    ViewBag.Title = "InformationBooking";
+    Layout = "~/Views/Shared/_LayoutClient.cshtml";
+}
+
+<div id="content" style="max-width: 60%;">
+    <a href="@Url.Action("Index")" class="btnBack"> &#x2B05; Back to Home</a>
+    <div id="gridBooking" style="margin-top: 10px;">
+        <div id="infoCus">
+            <div>
+                <span style="color: yellow;">BOOKING</span>
+                <div class="gridFormBook fix">
+
+                    <div class="labelForm">
+                        <label>Category Room:</label>
+                        <label>Number of rooms:</label>
+                        <label>Date In:</label>
+                        <label for="">Date Out:</label>
+                    </div>
+                    <div class="inputForm">
+                        <span>@Model.NameCateRoom</span>
+                        <span>@Model.NumberRoom</span>
+                        <span>@Model.DateIn</span>
+                        <span>@Model.DateOut</span>
+                        @if (TempData["cancel"] == null)
+                        {
+                            <div>
+                                <a href="@Url.Action("EditBooking", new { token = Model.TokenBooking })" class="btnBooking">Edit</a>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div>
+                <span style="color: yellow;">YOUR INFORMATION</span>
+                <div class="gridFormBook fix">
+                    <div class="labelForm">
+                        <label>Your Name:</label>
+                        <label>Phone Number:</label>
+                        <label>Email:</label>
+                        <label for="">Address:</label>
+                    </div>
+                    <div class="inputForm">
+                        <span>@Model.NameCus</span>
+                        <span>@Model.PhoneCus</span>
+                        <span>@Model.EmailCus</span>
+                        <span>@Model.AddressCus</span>
+                        @if (TempData["cancel"] == null)
+                        {
+                            <div>
+                                <a href="@Url.Action("EditInfor", new { token = Model.TokenBooking })" class="btnBooking">Edit</a>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div id="infoHis">
+            @if (TempData["his"] != null)
+            {
+                <div>
+                    <div class="panel-heading" style="text-align: center;color: springgreen;">
+                        History Booking
+                    </div>
+                    <div class="table-responsive scrollTable">
+                        <table class="table table-striped b-t b-light">
+                            <thead style="color: tomato;">
+                                <tr>
+                                    <th>Name Action</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody style="word-break: break-all;color: cornsilk;">
+                                @foreach (var item in ((IEnumerable<HotelManagement.Models.ViewModel.HistoryBookingView>)TempData["his"]))
+                                {
+                                    <tr>
+                                        <td>@item.NameHisBook</td>
+                                        <td>@item.DayCreateHisBook</td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            }
+            @if (TempData["room"] != null)
+            {
+                <div style="margin-top:5px;">
+                    <div class="panel-heading" style="text-align: center;color: springgreen;">
+                        Room Booked List
+                    </div>
+                    <div class="table-responsive scrollTable">
+                        <table class="table table-striped b-t b-light">
+                            <thead style="color: tomato;">
+                                <tr>
+                                    <th>Name Room</th>
+                                    <th>Change Room</th>
+                                </tr>
+                            </thead>
+                            <tbody style="word-break: break-all;color: cornsilk;">
+                                @foreach (var item in ((IEnumerable<HotelManagement.Models.ViewModel.RoomBookingView>)TempData["room"]))
+                                {
+                                <tr>
+                                    <td>@item.NameRoom</td>
+                                    @if (TempData["cancel"] == null)
+                                    {
+                                        <td><a href="@Url.Action("ChangeRoom", new { idRB = item.IDRoomBook, token = Model.TokenBooking })">Change</a></td>
+                                    }
+                                    else { <td>None</td>}
+                                </tr>
+                                }
+
+                            </tbody></table></div></div>
+            }
+
+            @if (TempData["ord"] != null)
+            {
+                <div style="margin-top:5px;margin-bottom:15px;">
+                    <div class="panel-heading" style="text-align: center;color: springgreen;">
+                        Order List
+                    </div>
+                    <div class="table-responsive scrollTable">
+                        <table class="table table-striped b-t b-light">
+                            <thead style="color: tomato;">
+                                <tr>
+                                    <th>Name Service</th>
+                                    <th>Q.</th>
+                                    <th>Price</th>
+                                    <th>Amount</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody style="word-break: break-all;color: cornsilk;">
+                                @foreach (var item in ((IEnumerable<HotelManagement.Models.ViewModel.OrderDetailView>)TempData["ord"]))
+                                {
+                                    <tr>
+                                        <td>@item.NameService</td>
+                                        <td>@item.Quantity</td>
+                                        <td>@item.PriceOrdD</td>
+                                        <td>@item.Amount</td>
+                                        <td>@item.DayCreateOrdD</td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <span id="total">Total: @(TempData["total"] ?? 0) ($)</span>
+            }
+
+        </div>
+
+        @if (TempData["cancel"] == null)
+        {
+        <div id="btnMng">
+            @if (Session["emp"] != null)
+            {
+                if (TempData["checkroom"] == null)
+                {
+                    <a href="@Url.Action("TakeRoomForm", new { token = Model.TokenBooking })" class="btn btn-primary">Check in</a>
+                }
+                else
+                {
+                    <a href="@Url.Action("Index","Order",new { token=Model.TokenBooking})" class="btn btn-info">Order</a>
+                    <a href="@Url.Action("CheckOut",new { token=Model.TokenBooking,payment=true})" class="btn btn-success">Check out(Cash)</a>
+                    <a href="@Url.Action("CheckOut",new { token=Model.TokenBooking,payment=false})" class="btn btn-warning">Check out(Paypal)</a>
+                }
+            }
+
+            @if (TempData["checkroom"] == null)
+            {
+                <a href="@Url.Action("CancelBooking",new { idBooking=Model.IDBooking})" class="btn btn-danger">Cancel Booking</a>
+            }
+        </div>
+        }
+
+    </div>
+</div>
+@section scripts{
+    <script>
+    $(function () {
+        var msg1 = '@TempData["success"]'
+        var msg2='@TempData["error"]'
+        if (msg1 != '') {
+            alertify.success(msg1);
+        }
+        if (msg2 != '') {
+            alertify.error(msg2);
+        }
+    });
+    </script>
+}

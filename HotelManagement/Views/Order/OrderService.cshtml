@@ -1,0 +1,41 @@
+﻿@model HotelManagement.Models.ViewModel.BookingView
+@{
+    ViewBag.Title = "OrderService";
+    Layout = "~/Views/Shared/_LayoutClient.cshtml";
+    HotelManagement.Models.ViewModel.ServiceView sv = null;
+    if (TempData["ser"] != null)
+    {
+        sv = (HotelManagement.Models.ViewModel.ServiceView)TempData["ser"];
+    }
+}
+
+@if (sv != null)
+{
+    <div id="content" style="max-width: 40%;">
+        <a href="@Url.Action("Index",new { token=Model.TokenBooking})" class="btnBack"> &#x2B05; Back to Order</a>
+        <form action="@Url.Action("CreateOrd")" method="post">
+            <input type="hidden" name="idBook" value="@Model.IDBooking" />
+            <input type="hidden" name="idCate" value="@sv.IDCateSer" />
+            <input type="hidden" name="token" value="@Model.TokenBooking" />
+            <div>
+                <label for="" style="font-size: 20px;color: floralwhite;"> Name Service:</label>
+                <input type="text" name="NameService" value="@sv.NameService" readonly>
+            </div>
+            <div>
+                <label for="" style="font-size: 20px;color: floralwhite;">Price:</label>
+                <input type="text" name="PriceOrdD" value="@sv.PriceService" readonly>
+            </div>
+            <div>
+                <label for="" style="font-size: 20px;color: floralwhite;">Quantity:</label>
+                <input type="number" name="Quantity" min="1" />
+            </div>
+            <div>
+                <input type="submit" class="btn btn-info" value="Order">
+            </div>
+        </form>
+        <a href="@Url.Action("InformationBooking",new { token=Model.TokenBooking})" class="btnBack"> &#x2B05; Back to your booking</a><br>
+
+    </div>
+
+}
+

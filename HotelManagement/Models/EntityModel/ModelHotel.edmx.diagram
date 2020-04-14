@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="85bed8afb53f4e2aa051e84b6a01aa28" Name="Diagram1">
+        <EntityTypeShape EntityType="HotelAPIManagementModel.Booking" Width="1.5" PointX="3" PointY="4.875" />
+        <EntityTypeShape EntityType="HotelAPIManagementModel.CategoryRoom" Width="1.5" PointX="0.75" PointY="5.875" />
+        <EntityTypeShape EntityType="HotelAPIManagementModel.CategoryService" Width="1.5" PointX="2.75" PointY="1.125" />
+        <EntityTypeShape EntityType="HotelAPIManagementModel.Customer" Width="1.5" PointX="0.75" PointY="2.625" />
+        <EntityTypeShape EntityType="HotelAPIManagementModel.HistoryBooking" Width="1.5" PointX="5.25" PointY="7.5" />
+        <EntityTypeShape EntityType="HotelAPIManagementModel.Room" Width="1.5" PointX="3" PointY="11.75" />
+        <EntityTypeShape EntityType="HotelAPIManagementModel.RoomBooking" Width="1.5" PointX="5.25" PointY="10.5" />
+        <EntityTypeShape EntityType="HotelAPIManagementModel.Service" Width="1.5" PointX="5" PointY="0.875" />
+        <AssociationConnector Association="HotelAPIManagementModel.FK_Booking_CategoryRoom" />
+        <AssociationConnector Association="HotelAPIManagementModel.FK_Booking_Customer" />
+        <AssociationConnector Association="HotelAPIManagementModel.FK_HistoryBooking_Booking" />
+        <AssociationConnector Association="HotelAPIManagementModel.FK_RoomBooking_Booking" />
+        <AssociationConnector Association="HotelAPIManagementModel.FK_Room_CategoryRoom" />
+        <AssociationConnector Association="HotelAPIManagementModel.FK_Service_CategoryService" />
+        <AssociationConnector Association="HotelAPIManagementModel.FK_RoomBooking_Room" />
+        <EntityTypeShape EntityType="HotelAPIManagementModel.OrderDetail" Width="1.5" PointX="7.5" PointY="13.5" />
+        <EntityTypeShape EntityType="HotelAPIManagementModel.OrderService" Width="1.5" PointX="5.25" PointY="13.75" />
+        <AssociationConnector Association="HotelAPIManagementModel.FK_OrderService_Booking" />
+        <AssociationConnector Association="HotelAPIManagementModel.FK_OrderDetail_OrderService" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

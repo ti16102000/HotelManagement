@@ -1,0 +1,28 @@
+﻿@model HotelManagement.Models.ViewModel.CategoryServiceView
+
+@{
+    ViewBag.Title = "GetCateService";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<a href="@Url.Action("ListCateSer")" class="btn btn-sm btn-info" style="background-color:#4e73df;font-size:20px;float:right;">
+    <i class="fa fa-arrow-right"></i>
+</a>
+
+<section class="panel" style="margin-top:55px;">
+    <header class="panel-heading">
+        Edit Category Service
+    </header>
+    <form action="@Url.Action("UpdateCateService")" method="POST" enctype="multipart/form-data">
+        <div class="panel-body">
+            <div class="position-center">
+                <div class="form-group">
+                    <input type="hidden" name="IDCateSer" value="@Model.IDCateSer" />
+                    <label for="">Category Name:</label>
+                    <input type="text" class="form-control" name="NameCateSer" maxlength="40" value="@Model.NameCateSer" required>
+                </div>
+                <button type="submit" name="submit" class="btn btn-info">Submit</button>
+            </div>
+        </div>
+    </form>
+</section>
+

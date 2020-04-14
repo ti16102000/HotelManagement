@@ -1,0 +1,41 @@
+﻿@model HotelManagement.Models.ViewModel.BookingView
+@{
+    ViewBag.Title = "EditInfor";
+    Layout = "~/Views/Shared/_LayoutClient.cshtml";
+}
+
+<div id="content" style="max-width: 40%;">
+    <div id="booking">
+        <span style="margin-left: 30%;">EDIT YOUR INFORMATION</span>
+        <form action="@Url.Action("UpdateInfor")" method="post" class="gridFormBook">
+            <div class="labelForm">
+                <label>Your Name:</label>
+                <label>Phone Number:</label>
+                <label>Email:</label>
+                <label>Address:</label>
+            </div>
+            <div class="inputForm">
+                <div>
+                    <input type="hidden" name="IDCus" value="@Model.IDCus" />
+                    <input type="hidden" name="IDBooking" value="@Model.IDBooking" />
+                    <input type="hidden" name="TokenBooking" value="@Model.TokenBooking" />
+                    <input type="text" maxlength="40" name="NameCus" value="@Model.NameCus" required>
+                </div>
+                <div>
+                    <input type="text" maxlength="12" pattern="[+]{0,1}[\d]{10,12}" title="Invalid Phone!" name="PhoneCus" value="@Model.PhoneCus">
+                </div>
+                <div>
+                    <input type="text" maxlength="40" pattern="[a-z0-9._%+-]+@("@")[a-z0-9.-]+\.[a-z]{2,}$" title="Invalid Email" name="EmailCus" value="@Model.EmailCus">
+                </div>
+                <div>
+                    <input type="text" maxlength="40" name="AddressCus" value="@Model.AddressCus">
+                </div>
+                <div>
+                    <input type="submit" value="Submit" class="btnBooking">
+                </div>
+            </div>
+        </form>
+        <a href="@Url.Action("InformationBooking",new { token=Model.TokenBooking})" class="btnBack"> &#x2B05; Back to Your Booking</a>
+    </div>
+</div>
+
