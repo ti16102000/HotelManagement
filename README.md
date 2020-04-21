@@ -1,0 +1,3 @@
+## HotelManagement
++ Manage room, service,...
++ Booking online, check in, order service, check out (Cash, Paypal)
